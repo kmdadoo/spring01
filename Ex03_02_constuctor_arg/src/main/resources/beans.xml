@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+			
+	<!-- 1. 생성자 주입 -->
+	<!-- ref : 매개변수에 넘겨줄 객체의 참조값 -->
+	<bean id="hello"	class="com.study.spring.Hello">
+		<!-- 생성자 주입의 경우 <contructor-arg> 태그를 사용 -->
+		<!-- name : 생성자의 매개변수 이름 설정 -->
+		<!-- value : 매개변수에 넘겨줄 값 -->
+		<constructor-arg name="name" value="이순신" />
+		<constructor-arg name="nickname" value="강감찬" />
+		<constructor-arg name="printer"	ref="printerA" />
+		
+		
+		<!-- index -->
+		
+<!-- 		<constructor-arg index="0" value="이순신"/>  -->
+<!-- 		<constructor-arg index="1" value="강감찬"/> -->
+<!-- 		<constructor-arg index="2" ref="printerA" /> -->
+		
+		<!-- 순서 -->
+		
+<!-- 		<constructor-arg value="이순신" /> -->
+<!-- 		<constructor-arg value="강감찬" /> -->
+<!-- 		<constructor-arg ref="printerA" /> -->
+		
+	</bean>
+	<bean id="printerA" class="com.study.spring.PrinterA" />  
+	<bean id="printerB" class="com.study.spring.PrinterB" />
+
+</beans>

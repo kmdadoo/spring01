@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- XML 파일을 사용하는 방법으로 <bean> 요소의 class 속성에 
+	FQCN(Fully-Qualified Class Name)을 기술하면 빈이 정의된다. 
+	<constructor-arg>나 <property> 요소를 사용해 의존성을 주입한다. -->
+	<!-- 
+		id : 빈 이름(id) 설정 
+		class : 빈 타입 설정
+		scope : 빈의 scope 설정 (singleton/prototype)
+		primary : true를 지정하여 같은 타입의 빈이 여러개 일때 우선적으로 사용할 빈 설정
+		lazy-init : true를 지정하여 빈을 사용할 때 객체가 생성되도록 설정
+		init-method : 빈 객체가 생성될때 호출할 메소드 설정
+		destroy-method : 빈 객체가 소멸될때 호출할 메소드 설정
+		autowire : 자동주입 설정 (no, byName, byType, constructor)
+	 -->
+	
+	<!-- 이것이 스프링부트에서는 @Bean으로...
+		아래 Bean 태그를 JAVA코드로 표현하면 다음과 같다.
+		import com.study.spring.Hello;
+		Hello hello = new Heoll('홍길동','전우치');
+		즉, Hello객체를 홍길동, 전우치로 초기화한다.
+		형식] id = "참조변수명" class = "패키지를 포함한 클래스경로"
+	 -->	
+	<bean id="hello"	class="com.study.spring.Hello">
+		<!-- setter 주입의 경우 <property> 태그를 사용 -->
+		<!-- 멤버변수 name을 setter를 통해 초기화 -->
+		<!-- 방법1 : value 속성을 이용한다. -->
+		<property name="name"	value="홍길동" />
+		
+		<!-- 방법2 : 하위태그 속성을 사용한다. -->
+		<property name="nickname">
+		<value>전우치</value>
+		</property>
+		
+		<!-- <ref> 태그로 기존에 등록한 빈을 참조하도록 할 수도 있다 -->
+		<property name="printer"	ref="printerA" />
+		<!--
+		<property name="printer">
+		<ref bean="printerB"/>
+		</property>
+		-->
+	</bean>
+	<bean id="printerA" class="com.study.spring.PrinterA" />  
+	<bean id="printerB" class="com.study.spring.PrinterB" />
+
+</beans>
