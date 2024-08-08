@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	
+	<!-- 공통기능으로 사용할 클래스 -->
+	<bean id="logAop" class="com.study.spring.LogAop" />
+	
+	<!--
+		어드바이스(Advice)는 AOP(Aspect-Oriented Programming)의 핵심 개념 중 하나이다.
+		어드바이스는 AOP에서 핵심 비즈니스 로직을 실행하기 전, 후 또는 중간에 실행되는 
+		부가적인 기능입니다. 예를 들어, 로깅, 트랜잭션 관리, 보안 등의 공통적인 기능을 
+		어드바이스로 구현하여 핵심 비즈니스 로직과 분리할 수 있습니다. 스프링은 다양한 
+		종류의 어드바이스를 제공하여 다양한 상황에 맞게 사용할 수 있습니다.
+		
+		<aop:before> : 메소드 실행 전에 advice실행
+		<aop:after-returning> : 정상적으로 메소드 실행 후에 advice실행
+		<aop:after-throwing> : 메소드 실행중 exception 발생시 advice실행
+		<aop:after> : 메소드 실행중 exception 이 발생하여도 advice실행
+		<aop:around> : 메서드 실행 전/후 및 exception 발생시 advice실행
+
+	-->
+	<aop:config>
+		<aop:aspect id="logger" ref="logAop">
+			<aop:pointcut expression="within(com.study.spring.*)" id="publicM"/>
+			<aop:around method="loggerAop" pointcut-ref="publicM"/>
+		</aop:aspect>
+		
+		<aop:aspect id="logger" ref="logAop">
+			<aop:pointcut id="publicM" expression="within(com.study.spring.*)"  />
+			<aop:before pointcut-ref="publicM" method="beforeAdvice" />
+		</aop:aspect>
+		
+		<aop:aspect id="logger" ref="logAop">
+			<aop:pointcut id="publicM" expression="within(com.study.spring.*)"  />
+			<aop:after-returning pointcut-ref="publicM" method="afterReturningAdvice" />
+		</aop:aspect>
+		
+		<aop:aspect id="logger" ref="logAop">
+			<aop:pointcut id="publicM" expression="within(com.study.spring.*)"  />
+			<aop:after-throwing pointcut-ref="publicM" method="afterThrowingAdvice" />
+		</aop:aspect>
+		
+		<aop:aspect id="logger" ref="logAop">
+			<aop:pointcut id="publicM" expression="within(com.study.spring.*)"  />
+			<aop:after pointcut-ref="publicM" method="afterAdvice" />
+		</aop:aspect>
+		
+	</aop:config>
+	
+	<bean id="student" class="com.study.spring.Student">
+		<property name="name" value="홍길동"/>
+		<property name="age" value="10"/>
+	</bean>
+	
+	<bean id="worker" class="com.study.spring.Worker">
+		<property name="name" value="전우치"/>
+		<property name="age" value="35"/>
+	</bean>
+
+</beans>
